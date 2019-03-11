@@ -1,0 +1,69 @@
+@font-face {
+  font-family: "GorditaLight";
+  src: url("../fonts/GorditaLight/GorditaLight.eot");
+  src: url("../fonts/GorditaLight/GorditaLight.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/GorditaLight/GorditaLight.woff") format("woff"),
+       url("../fonts/GorditaLight/GorditaLight.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "GorditaRegular";
+  src: url("../fonts/GorditaRegular/GorditaRegular.eot");
+  src: url("../fonts/GorditaRegular/GorditaRegular.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/GorditaRegular/GorditaRegular.woff") format("woff"),
+       url("../fonts/GorditaRegular/GorditaRegular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "GorditaMedium";
+  src: url("../fonts/GorditaMedium/GorditaMedium.eot");
+  src: url("../fonts/GorditaMedium/GorditaMedium.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/GorditaMedium/GorditaMedium.woff") format("woff"),
+       url("../fonts/GorditaMedium/GorditaMedium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "GorditaBold";
+  src: url("../fonts/GorditaBold/GorditaBold.eot");
+  src: url("../fonts/GorditaBold/GorditaBold.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/GorditaBold/GorditaBold.woff") format("woff"),
+       url("../fonts/GorditaBold/GorditaBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "RalewayBold";
+  src: url("../fonts/RalewayBold/RalewayBold.eot");
+  src: url("../fonts/RalewayBold/RalewayBold.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/RalewayBold/RalewayBold.woff") format("woff"),
+       url("../fonts/RalewayBold/RalewayBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "RalewayRegular";
+  src: url("../fonts/RalewayRegular/RalewayRegular.eot");
+  src: url("../fonts/RalewayRegular/RalewayRegular.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/RalewayRegular/RalewayRegular.woff") format("woff"),
+       url("../fonts/RalewayRegular/RalewayRegular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Andantino";
+  src: url("../fonts/Andantino/Andantino.eot");
+  src: url("../fonts/Andantino/Andantino.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/Andantino/Andantino.woff") format("woff"),
+       url("../fonts/Andantino/Andantino.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}

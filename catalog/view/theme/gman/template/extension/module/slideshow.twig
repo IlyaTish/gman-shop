@@ -1,0 +1,26 @@
+<!-- Slider main container -->
+<section class="swiper-container header-slider s1">
+
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper header-slider__mask">
+    {% for banner in banners %}
+      <div class="swiper-slide">
+        <div class="header-slider__text" data-swiper-parallax="-40%" data-swiper-parallax-scale="0.55">
+          <h1 class="fade-text bold">{{ banner.title }}</h1>
+          <p class="fade-text subtitle">Изготовление по итальянским лекалам</p>
+        </div>
+
+        {% if banner.link %}
+          <a href="{{ banner.link }}">
+            <img src="{{ banner.image }}" alt="{{ banner.title }}" class="header-slider__img">
+          </a>
+        {% else %}
+          <img src="{{ banner.image }}" alt="{{ banner.title }}" class="header-slider__img">
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- If we need pagination -->
+  <div class="swiper-pagination"></div>
+</section>

@@ -1,0 +1,131 @@
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__logo-container">
+        <a href="index.html" class="footer__logo">
+          <svg viewBox="0 0 166 39" xmlns="http://www.w3.org/2000/svg">
+            <path d="M66.0223 21.4896H57.0273V15.3744H66.0223V21.4896Z"/>
+            <path d="M50.1028 15.262L31.4489 38.426H21.8848L0.496094 11.9002L7.59405 0.0380859H45.7397L52.5531 11.468H39.8431L37.8038 8.18631H15.4666L12.3049 13.5811L26.6589 31.3503L33.3301 22.946H24.7145L18.4386 15.262H50.1028Z"/>
+            <path d="M95.0785 4.96875H107.33V10.0914H105.243V28.469H107.33V33.4956H96.2167V28.469H98.0663V17.9835L92.5966 33.4956H87.9489L82.5741 17.9835V28.469H84.8031V33.4956H72.8203V28.469H75.3496V10.0914H72.8203V4.96875H85.6883L90.5731 24.2267L95.0785 4.96875Z"/>
+            <path d="M152.256 33.4956H140.652V28.3729H143.292V9.96334H140.652V4.96875H150.833L155.923 17.1671V9.85129H153.441V4.96875H165.503V9.96334H163.021V28.3729H165.503V33.4956H155.971L150.106 18.896V28.3729H152.256V33.4956Z"/>
+            <path d="M121.446 33.4956H112.262V28.581H113.526L118.822 10.0274H117.289L117.241 4.96875H123.786H130.331L130.283 10.0274H128.75L134.046 28.581H135.31V33.4956H126.126V28.581H127.659L127.137 26.9482H123.786H120.435L119.913 28.581H121.446V33.4956ZM123.786 15.9184L121.652 23.1542H123.786H125.92L123.786 15.9184Z"/>
+          </svg>
+        </a>
+      
+        <span class="company-info">© 2019 gman.shop</span>
+
+        <div class="footer__social">
+          <a href="#" class="footer__icon">
+            <i class="fab fa-instagram"></i>
+          </a>
+
+          <a href="#" class="footer__icon">
+            <i class="fab fa-vk"></i>
+          </a>
+
+          <a href="#" class="footer__icon">
+            <i class="fab fa-facebook"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer__nav menu">
+        <nav>
+          {% if informations %}
+            <ul>
+              <span class="footer__nav__heading">Меню</span>
+             {% for information in informations %}
+              <li>
+                <a href="{{ information.href }}">{{ information.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </nav>
+      </div>
+
+      <div class="footer__nav contacts">
+        <ul>
+          <span class="footer__nav__heading">Наши контакты</span>
+          <li>
+            <i class="fas fa-phone"></i><a href="#">+7 (999) 961-55-24</a>
+          </li>
+
+          <li>
+            <i class="fas fa-envelope"></i><a href="#">gman.shop@mail.ru</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer__form">
+        <span class="footer__form__heading">Обратная связь</span>
+        <form>
+          <input type="text" name="name" placeholder="Ваше имя">
+          <input class="phone_input" type="text" name="phone" placeholder="+7 (___)-___-__-__">
+          <input class="btn" type="submit" value="отправить">
+        </form>
+      </div>
+
+      <div class="footer__social">
+        <a href="#" class="footer__icon">
+          <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="#" class="footer__icon">
+          <i class="fab fa-vk"></i>
+        </a>
+
+        <a href="#" class="footer__icon">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </div>
+
+      <div class="footer-mobile">
+        <div class="footer__logo-container">
+          <a href="index.html" class="footer__logo">
+            <svg viewBox="0 0 166 39" xmlns="http://www.w3.org/2000/svg">
+              <path d="M66.0223 21.4896H57.0273V15.3744H66.0223V21.4896Z"/>
+              <path d="M50.1028 15.262L31.4489 38.426H21.8848L0.496094 11.9002L7.59405 0.0380859H45.7397L52.5531 11.468H39.8431L37.8038 8.18631H15.4666L12.3049 13.5811L26.6589 31.3503L33.3301 22.946H24.7145L18.4386 15.262H50.1028Z"/>
+              <path d="M95.0785 4.96875H107.33V10.0914H105.243V28.469H107.33V33.4956H96.2167V28.469H98.0663V17.9835L92.5966 33.4956H87.9489L82.5741 17.9835V28.469H84.8031V33.4956H72.8203V28.469H75.3496V10.0914H72.8203V4.96875H85.6883L90.5731 24.2267L95.0785 4.96875Z"/>
+              <path d="M152.256 33.4956H140.652V28.3729H143.292V9.96334H140.652V4.96875H150.833L155.923 17.1671V9.85129H153.441V4.96875H165.503V9.96334H163.021V28.3729H165.503V33.4956H155.971L150.106 18.896V28.3729H152.256V33.4956Z"/>
+              <path d="M121.446 33.4956H112.262V28.581H113.526L118.822 10.0274H117.289L117.241 4.96875H123.786H130.331L130.283 10.0274H128.75L134.046 28.581H135.31V33.4956H126.126V28.581H127.659L127.137 26.9482H123.786H120.435L119.913 28.581H121.446V33.4956ZM123.786 15.9184L121.652 23.1542H123.786H125.92L123.786 15.9184Z"/>
+            </svg>
+          </a>
+        
+          <span class="company-info">© 2019 gman.shop</span>
+        </div>
+
+        <div class="footer__nav contacts">
+          <ul>
+            <span class="footer__nav__heading">Наши контакты</span>
+            <li>
+              <i class="fas fa-phone"></i><a href="#">+7 (999) 961-55-24</a>
+            </li>
+
+            <li>
+              <i class="fas fa-envelope"></i><a href="#">gman.shop@mail.ru</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__social">
+          <a href="#" class="footer__icon">
+            <i class="fab fa-instagram"></i>
+          </a>
+
+          <a href="#" class="footer__icon">
+            <i class="fab fa-vk"></i>
+          </a>
+
+          <a href="#" class="footer__icon">
+            <i class="fab fa-facebook"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  {% for script in scripts %}
+    <script src="{{ script }}"></script>
+  {% endfor %}
+</body>
+</html>

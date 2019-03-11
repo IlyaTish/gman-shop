@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<!--[if IE 8 ]><html lang="{{ lang }}" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html lang="{{ lang }}" class="ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="{{ lang }}">
+<!--<![endif]-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>{{ title }}</title>
+
+  <base href="{{ base }}">
+
+  {% if description %}
+    <meta name="description" content="{{ description }}">
+  {% endif %}
+
+  {% if keywords %}
+    <meta name="keywords" content="{{ keywords }}">
+  {% endif %}
+
+  {% for style in styles %}
+    <link href="{{ style.href }}" rel="{{ style.rel }}">
+  {% endfor %}
+
+  {% for script in scripts %}
+    <script src="{{ script }}"></script>
+  {% endfor %}
+
+  {% for link in links %}
+    <link href="{{ link.href }}" rel="{{ link.rel }}">
+  {% endfor %}
+
+  {% for analytic in analytics %}
+    {{ analytic }}
+  {% endfor %}
+</head>
+
+
+<body>
+  <div class="main-loader">
+    <div id="load">
+      <div>N</div>
+      <div>A</div>
+      <div>M</div>
+      <div>G</div>
+    </div>
+  </div>
+
+
+  <div id="loginModel" class="mfp-hide mfp-with-anim popup" role="dialog">
+    <form class="login-form" action="http://opencart-dev/index.php?route=account/login" method="post" novalidate="novalidate">
+      <span class="popup__heading">Войти в личный кабинет</span>
+      <div class="alert alert-danger display-hide">Неправильно заполнены поле E-Mail или пароль!</div>
+
+      <input type="hidden" name="ajax" value="true">
+
+      <div class="popup__content">
+        <div class="popup__email input-wrapper">
+          <label for="login-e-mail" class="control-label visible-ie8 visible-ie9"><span>Введите ваш e-mail</span></label>
+          <input id="login-e-mail" class="login-input form-control form-control-solid placeholder-no-fix valid" type="text" autocomplete="off" placeholder="E-mail" name="email" aria-required="true" aria-describedby="email-error">
+        </div>
+        
+        <div class="popup__password input-wrapper">
+          <label for="login-password" class="control-label visible-ie8 visible-ie9"><span>Введите ваш пароль</span></label>
+          <input id="login-password" class="login-input form-control form-control-solid placeholder-no-fix valid" type="password" autocomplete="off" placeholder="Пароль" name="password" aria-required="true" aria-describedby="password-error">
+        </div>
+        
+        <div class="popup__labels popup__labels--desktop">
+          <input id="checkbox" type="checkbox" name="remember me" checked><label for="checkbox"><span class="remember-me">Запомнить меня</span></label>
+          <a id="forget-password" class="forget-password">Забыли пароль?</a>
+          <a id="register-btn" class="to-reg">Зарегистрироваться</a>
+        </div>
+
+        <button type="button" class="btn-primary" id="loginBtn">Войти</button>
+
+        <div class="popup__labels popup__labels--mobile">
+          <a class="forget-password">Забыли пароль?</a>
+          <a class="to-reg">Зарегистрироваться</a>
+        </div>
+      </div>
+    </form>
+
+    <form class="forget-form" action="http://opencart-dev/index.php?route=account/forgotten" method="post" novalidate="novalidate">
+      <button type="button" id="back-btn" class="btn-back">
+        <svg viewBox="0 0 26 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.79688 10.0775L10.0476 1.54199"/>
+          <path d="M24.2023 10.1484H1.79688"/>
+          <path d="M1.79688 10.1484L10.0316 18.5415"/>
+        </svg>
+      </button>
+
+      <span class="popup__heading">Забыли пароль?</span>
+
+      <div class="alert alert-danger display-hide">
+        <button class="close" data-close="alert"></button>
+        <span></span>
+      </div>
+
+      <div class="alert alert-success display-hide">
+        <button class="close" data-close="alert"></button>
+        <span></span>
+      </div>
+
+      <input type="hidden" name="ajax" value="true">
+
+      <div class="popup__content">
+        <div class="popup__email input-wrapper">
+          <label for="forget-password-e-mail" class="control-label visible-ie8 visible-ie9"><span>Введите ваш e-mail</span></label>
+          <input id="forget-password-e-mail" class="login-input form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="E-mail" name="email" aria-required="true" aria-describedby="email-error">
+        </div>
+
+        <div class="popup__labels">
+          <button type="submit" id="forget-submit-btn" class="btn-primary">Отправить</button>
+        </div>
+      </div>
+    </form>
+
+    <form class="register-form" action="http://opencart-dev/index.php?route=account/register" method="post" novalidate="novalidate">
+      <button type="button" id="register-back-btn" class="btn-back">
+        <svg viewBox="0 0 26 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.79688 10.0775L10.0476 1.54199"/>
+          <path d="M24.2023 10.1484H1.79688"/>
+          <path d="M1.79688 10.1484L10.0316 18.5415"/>
+        </svg>
+      </button>
+
+      <span class="popup__heading">Регистрация</span>
+
+      <div class="popup__content">
+        <div class="alert alert-danger display-hide">
+          <button class="close" data-close="alert"></button>
+          <span>Введите ваш e-mail пароль</span>
+        </div>
+        
+        <input type="hidden" name="ajax" value="true">
+        
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>Имя:</span></label>
+          <input class="form-control placeholder-no-fix" type="text" placeholder="Имя" name="firstname">
+        </div>
+        
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>Фамилия:</span></label>
+          <input class="form-control placeholder-no-fix" type="text" placeholder="Фамилия" name="lastname">
+        </div>
+        
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>E-mail:</span></label>
+          <input class="form-control placeholder-no-fix" type="text" placeholder="E-mail" name="email" aria-required="true" aria-invalid="true" aria-describedby="email-error"><span id="email-error" class="help-block">Пожалуйста введите корректный e-mail адрес</span>
+        </div>
+        
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>Телефон:</span></label>
+          <input class="form-control placeholder-no-fix phone_input" type="text" placeholder="+7 (999) 999-99-99" name="telephone">
+        </div>
+        
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>Придумайте пароль:</span></label>
+          <input class="form-control placeholder-no-fix valid" type="password" autocomplete="off" id="register_password" placeholder="Пароль" name="password" aria-required="true" aria-invalid="false" aria-describedby="register_password-error">
+        </div>
+        
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>Подтвердите пароль:</span></label>
+          <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Подтвердите пароль" name="confirm">
+        </div>
+
+        <div class="popup__labels">
+          <div id="register_tnc_error"></div>
+          <button type="button" id="register-submit-btn" class="btn-primary">Зарегистрироваться</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <div id="write-to-us-popup" class="mfp-hide mfp-with-anim popup">
+    <form>
+      <span class="popup__heading">Напишите нам письмо</span>
+
+      <div class="popup__content">
+        <div class="popup__email input-wrapper">
+          <label for="write-to-us-e-mail" class=""><span>Введите ваш e-mail</span></label>
+          <input id="write-to-us-e-mail" class="login-input" type="text" autocomplete="off" placeholder="E-mail" name="E-mail" aria-required="true">
+        </div>
+
+        <div class="popup__textarea input-wrapper">
+          <textarea autofocus></textarea>
+        </div>
+
+        <button type="button" class="btn-primary">Отправить</button>
+      </div>
+    </form>
+  </div>
+
+
+  <div id="fast-order" class="mfp-hide mfp-with-anim popup">
+    <form class="fast-order__popup">
+      <!-- Hidden Required Fields -->
+      <input type="hidden" name="project_name" value="gman.shop">
+      <input type="hidden" name="admin_email" value="ilya.tishencko676@yandex.ru">
+      <input type="hidden" name="form_subject" class="product_name">
+      <!-- END Hidden Required Fields -->
+
+      <span class="popup__heading">Быстрый заказ</span>
+      <p class="popup__paragraph">
+        Оставьте нам свои данные, и наш менеджер свяжется с вами для уточнения деталей заказа
+      </p>
+
+      <div class="popup__content">
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>Имя:</span></label>
+          <input class="form-control placeholder-no-fix" type="text" placeholder="Имя" name="Имя">
+        </div>
+
+        <div class="input-wrapper">
+          <label class="control-label visible-ie8 visible-ie9"><span>Телефон:</span></label>
+          <input class="form-control placeholder-no-fix phone_input" type="text" placeholder="+7 (999) 999-99-99" name="Телефон">
+        </div>
+
+        <button type="submit" class="btn-primary">Отправить</button>
+      </div>
+
+      <div class="popup__overlay">
+        <span class="popup__heading">Спасибо за заявку!</span>
+        <p class="popup__paragraph">
+          Благодарим вас за покупки в нашем интернет магазине!<br>Наш менеджер свяжется с вами в ближайшее время для уточнения деталей заказа
+        </p>
+      </div>
+    </form>
+  </div>
+
+
+  <nav class="dropping-menu">
+    <ul>
+      <li>
+        <a href="http://gman.shop/index.php?route=common/katalog" title="Посмотреть каталог">Каталог</a>
+      </li>
+
+      <li>
+        <a href="{{ home }}" title="На главную">Главная</a>
+      </li>
+
+      {% for information in informations %}
+        <li>
+          <a href="{{ information.href }}">{{ information.title }}</a>
+        </li>
+      {% endfor %}
+
+      <li class="phone">
+        <a href="tel: +7 (999) 961-55-24">+7 (999) 961-55-24</a>
+      </li>
+    </ul>
+  </nav>
+
+
+<script>
+  var Login = function() {
+    var handleLogin = function() {
+      if ($('.remember-me:checked')) {
+        $('.login-form').validate({
+          rules: {
+            remember: {
+              required: true
+            }
+          }
+        });
+      }
+
+      $('.login-form').validate({
+        errorElement: 'span', //default input error message container
+        errorClass: 'help-block', // default input error message class
+        focusInvalid: false, // do not focus the last invalid input
+        rules: {
+          email: {
+            required: true
+          },
+          password: {
+            required: true
+          },
+        },
+        messages: {
+          email: {
+            required: "Поле 'E-mail' обязательно к заполнению"
+          },
+          password: {
+            required: "Поле 'Пароль' обязательно к заполнению"
+          }
+        },
+        invalidHandler: function(event, validator) { //display error alert on form submit   
+          $('.alert-danger', $('.login-form')).show();
+        },
+        highlight: function(element) { // hightlight error inputs
+          $(element)
+            .closest('.form-group').addClass('has-error'); // set error class to the control group
+          },
+          success: function(label) {
+            label.closest('.form-group').removeClass('has-error');
+            label.remove();
+          },
+          submitHandler: function(form) {
+            event.preventDefault();//form.submit(); // form validation success, call ajax form submit
+          }
+        });
+
+        $('.login-form input').keypress(function(e) {
+          if (e.which == 13) {
+            event.preventDefault();
+            submitLogin();
+          }
+        });
+
+        $("#loginBtn").on('click', function(){
+          submitLogin();
+        });
+
+        var submitLogin = function(){
+          if ($('.login-form').validate().form()) {
+            $.ajax({
+              url: 'login',
+              data: $('.login-form').serialize(),
+              method: 'post',
+              success: function(data){
+                var response = jQuery.parseJSON(data);
+                if(response.redirect != undefined){
+                  location.href = response.redirect;
+                }else{
+                  $('.alert-danger', $('.login-form')).html(response.warning);
+                  $('.alert-danger', $('.login-form')).show();
+                }
+              }
+            });  //$('.login-form').submit();
+          }
+        }
+      }
+
+      var handleForgetPassword = function() {
+        $('.forget-form').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+              email: {
+                required: true,
+                email: true
+              }
+            },
+            messages: {
+              email: {
+                required: "Поле 'E-mail' обязательно к заполнению"
+              }
+            },
+            invalidHandler: function(event, validator) { //display error alert on form submit   
+
+            },
+            highlight: function(element) { // hightlight error inputs
+              $(element).closest('.form-group').addClass('has-error'); // set error class to the control group
+            },
+            success: function(label) {
+              label.closest('.form-group').removeClass('has-error');
+              label.remove();
+            },
+            submitHandler: function(form) {
+              submitForget();
+            }
+          });
+
+        $('.forget-form input').keypress(function(e) {
+          if (e.which == 13) {
+            submitForget();
+            return false;
+          }
+        });
+
+        jQuery('.forget-password').click(function() {
+          jQuery('.login-form').addClass('login-form--active');
+          jQuery('.forget-form').addClass('forget-form--active');
+        });
+
+        jQuery('#back-btn').click(function() {
+          jQuery('.login-form').removeClass('login-form--active');
+          jQuery('.forget-form').removeClass('forget-form--active');;
+        });
+
+        var submitForget = function(){
+          $('.alert-success', $('.forget-form')).hide();
+          $('.alert-danger', $('.forget-form')).hide();
+          if ($('.forget-form').validate().form()) {
+            $.ajax({
+              url: 'http://opencart-dev/index.php?route=account/forgotten',
+              data: $('.forget-form').serialize(),
+              method: 'post',
+              success: function(data){
+                var response = jQuery.parseJSON(data);
+                if(response.msg != undefined){
+                  $('.alert-success', $('.forget-form')).html(response.msg);
+                  $('.alert-success', $('.forget-form')).show();
+                }else{
+                  $('.alert-danger', $('.forget-form')).html(response.warning);
+                  $('.alert-danger', $('.forget-form')).show();
+                }
+              }
+            });
+          }
+        }
+      }
+
+      var handleRegister = function() {
+        $('.register-form').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+              firstname: {
+                required: true
+              },
+              lastname: {
+                required: true
+              },
+              email: {
+                required: true,
+                email: true
+              },
+              telephone: {
+                required: true
+              },
+              password: {
+                required: true
+              },
+              confirm: {
+                equalTo: '#register_password'
+              },
+              agree: {
+                required: true
+              }
+            },
+            messages: {
+              firstname: {
+                required: 'Имя должно быть от 1 до 32 символов'
+              },
+              lastname: {
+                required: 'Фамилия должна быть от 1 до 32 символов'
+              },
+              email: {
+                required: 'E-Mail введен неправильно'
+              },
+              telephone: {
+                required: 'Телефон должен быть от 3 до 32 цифр'
+              },
+              password: {
+                required: 'В пароле должно быть от 4 до 20 символов'
+              },
+              confirm: {
+                equalTo: 'Поля "Пароль" и "Подтвердите пароль" не совпадают'
+              }
+            },
+            invalidHandler: function(event, validator) { //display error alert on form submit   
+
+            },
+            highlight: function(element) { // hightlight error inputs
+              $(element).closest('.input-wrapper').addClass('has-error'); // set error class to the control group
+            },
+            success: function(label) {
+              label.closest('.input-wrapper').removeClass('has-error');
+              label.remove();
+            },
+            ubmitHandler: function(form) {//form[0].submit();
+              submitRegister();
+            }
+          });
+
+        $("#register-submit-btn").on('click', function(){
+          submitRegister();
+        });
+
+        $('.register-form input').keypress(function(e) {
+          if (e.which == 13) {
+            if ($('.register-form').validate().form()) {
+              submitRegister();
+            }
+          }
+        });
+
+        jQuery('.to-reg').click(function() {
+          jQuery('.login-form').addClass('login-form--active');
+          jQuery('.register-form').addClass('register-form--active');
+        });
+
+        jQuery('#register-back-btn').click(function() {
+          jQuery('.login-form').removeClass('login-form--active');;
+          jQuery('.register-form').removeClass('register-form--active');;
+        });
+
+        var submitRegister = function(){
+          if ($('.register-form').validate().form()) {
+            $.ajax({
+              url: 'http://opencart-dev/index.php?route=account/register',
+              data: $('.register-form').serialize(),
+              method: 'post',
+              success: function(data){
+                var response = jQuery.parseJSON(data);
+                if(response.redirect != undefined){
+                  location.href = response.redirect;
+                }else{
+                  $('.alert-danger', $('.register-form')).html(response.warning);
+                  $('.alert-danger', $('.register-form')).show();
+                }
+              }
+            });
+          }
+        }
+      }
+
+      return {
+        init: function() {
+          handleLogin();
+          handleForgetPassword();
+          handleRegister();
+        }
+      };
+    }();
+
+    jQuery(document).ready(function() {
+      Login.init();
+    });
+</script>
+
+
+<header class="header">
+  <div class="container">
+    <div class="header__nav-left">
+      <div class="burger-menu">
+        <span></span>
+      </div>
+
+      <div class="rows">
+        <div class="row-top">
+          <a class="social" href="https://www.instagram.com/gman.shop"><i class="fab fa-instagram"></i></a>
+          <a class="social" href="https://vk.com/gman.shop"><i class="fab fa-vk"></i></a>
+          <a class="social" href="https://www.facebook.com/gmanshop21"><i class="fab fa-facebook-f"></i></a>
+        </div>
+
+        <ul class="row-bottom">
+          <li>
+            <a href="#write-to-us-popup" class="write-to-us popup-content" data-effect="mfp-move-horizontal"><i class="fas fa-edit"></i>написать нам</a>
+          </li>
+
+          <li class="shops">
+            <a id="shops-button">магазины</a>
+
+            <ul class="shops__list">
+              <li>
+                <p><span class="accent bold">МТВ 3 этаж,</span> г. Чебоксары, ул. И. Яковлева д.46</p>
+              </li>
+              <li>
+                <p><span class="accent bold">Мега Молл 2 этаж,</span> г. Чебоксары, ул. Калинина д. 105а</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="header__logo">
+      {% if logo %}
+        <a href="{{ home }}" title="{{ home }}" class="logo">
+          <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}">
+        </a>
+      {% else %}
+        <h1><a href="{{ home }}">{{ name }}</a></h1>
+      {% endif %}
+
+      <a href="tel:{{ telephone }}" class="mobile phone"><i class="fas fa-phone"></i><span>{{ telephone }}</span></a>
+    </div>
+
+    <div class="header__nav-right">
+      <div class="rows">
+        <ul class="row-top">
+          <li class="header__phone">
+            <a href="tel:{{ contact }}"><i class="fas fa-phone"></i><span>{{ telephone }}</span></a>
+          </li>
+
+          <li>
+            <span class="location">Чебоксары</span>
+          </li>
+        </ul>
+
+        <ul class="row-bottom">
+          {% if logged %}
+            <li>
+              <a href="{{ account }}" title="войти/зарегистрироваться">
+                <svg class="user-icon" viewBox="0 0 27 25" xmlns="http://www.w3.org/2000/svg">
+                  <mask id="path-1-outside-1" maskUnits="userSpaceOnUse" x="0.40625" y="0.120605" width="27" height="25">
+                    <rect fill="white" x="0.40625" y="0.120605" width="27" height="25"/>
+                    <path d="M1.66596 24.4625C1.85358 24.5114 2.0454 24.3983 2.0944 24.2041C2.81547 21.3992 5.74594 20.6722 7.4975 20.2372C7.93644 20.1284 8.28297 20.0423 8.5084 19.9408C10.5036 19.038 11.1539 17.5855 11.3486 16.5257C11.3724 16.3979 11.3283 16.2666 11.233 16.1804C10.1942 15.2454 9.31767 13.8419 8.76462 12.2273C8.74922 12.1814 8.72472 12.139 8.69251 12.1025C7.96095 11.2734 7.54091 10.3968 7.54091 9.69828C7.54091 9.29027 7.68862 9.01656 8.02115 8.81C8.12266 8.7465 8.18637 8.63483 8.19127 8.51221C8.34598 4.79414 10.8858 1.86728 14.0011 1.84831C14.0046 1.84831 14.0725 1.85342 14.076 1.85342C17.2067 1.89867 19.7304 4.8883 19.8207 8.65892C19.8235 8.76329 19.8683 8.86109 19.9454 8.92824C20.1645 9.12167 20.2667 9.36691 20.2667 9.69974C20.2667 10.2844 19.9678 11.0033 19.4259 11.723C19.4 11.7573 19.3804 11.7967 19.3671 11.8383C18.807 13.6893 17.8018 15.3235 16.6102 16.3235C16.5094 16.4082 16.4618 16.5439 16.4856 16.676C16.6802 17.7351 17.3306 19.1869 19.3258 20.0912C19.5617 20.1978 19.9278 20.281 20.392 20.3853C22.1261 20.7766 25.0278 21.4327 25.7398 24.2041C25.7818 24.3669 25.9232 24.4742 26.0772 24.4742C26.1073 24.4742 26.1374 24.4698 26.1682 24.4618C26.3551 24.4092 26.4658 24.2092 26.416 24.0144C25.5935 20.8123 22.306 20.07 20.5404 19.6715C20.1309 19.5788 19.7773 19.4992 19.6051 19.4204C18.303 18.8307 17.5007 17.9322 17.2172 16.7454C18.4262 15.6629 19.4378 13.993 20.0161 12.1201C20.63 11.288 20.9674 10.4311 20.9674 9.69901C20.9674 9.21071 20.8162 8.80343 20.5166 8.4852C20.35 4.39489 17.5504 1.17389 14.076 1.12207L13.9717 1.12061C10.5603 1.13958 7.74883 4.27592 7.5031 8.29543C7.06486 8.63118 6.84224 9.10196 6.84224 9.69974C6.84224 10.5632 7.31059 11.596 8.13036 12.5434C8.69671 14.1659 9.57459 15.5914 10.6198 16.5892C10.3377 17.7804 9.53469 18.6818 8.22977 19.2723C8.06105 19.3489 7.72502 19.4328 7.33579 19.5292C5.55692 19.97 2.24702 20.7912 1.41814 24.0158C1.36844 24.2107 1.47905 24.41 1.66596 24.4625Z"/>
+                  </mask>
+                  <path d="M1.66596 24.4625C1.85358 24.5114 2.0454 24.3983 2.0944 24.2041C2.81547 21.3992 5.74594 20.6722 7.4975 20.2372C7.93644 20.1284 8.28297 20.0423 8.5084 19.9408C10.5036 19.038 11.1539 17.5855 11.3486 16.5257C11.3724 16.3979 11.3283 16.2666 11.233 16.1804C10.1942 15.2454 9.31767 13.8419 8.76462 12.2273C8.74922 12.1814 8.72472 12.139 8.69251 12.1025C7.96095 11.2734 7.54091 10.3968 7.54091 9.69828C7.54091 9.29027 7.68862 9.01656 8.02115 8.81C8.12266 8.7465 8.18637 8.63483 8.19127 8.51221C8.34598 4.79414 10.8858 1.86728 14.0011 1.84831C14.0046 1.84831 14.0725 1.85342 14.076 1.85342C17.2067 1.89867 19.7304 4.8883 19.8207 8.65892C19.8235 8.76329 19.8683 8.86109 19.9454 8.92824C20.1645 9.12167 20.2667 9.36691 20.2667 9.69974C20.2667 10.2844 19.9678 11.0033 19.4259 11.723C19.4 11.7573 19.3804 11.7967 19.3671 11.8383C18.807 13.6893 17.8018 15.3235 16.6102 16.3235C16.5094 16.4082 16.4618 16.5439 16.4856 16.676C16.6802 17.7351 17.3306 19.1869 19.3258 20.0912C19.5617 20.1978 19.9278 20.281 20.392 20.3853C22.1261 20.7766 25.0278 21.4327 25.7398 24.2041C25.7818 24.3669 25.9232 24.4742 26.0772 24.4742C26.1073 24.4742 26.1374 24.4698 26.1682 24.4618C26.3551 24.4092 26.4658 24.2092 26.416 24.0144C25.5935 20.8123 22.306 20.07 20.5404 19.6715C20.1309 19.5788 19.7773 19.4992 19.6051 19.4204C18.303 18.8307 17.5007 17.9322 17.2172 16.7454C18.4262 15.6629 19.4378 13.993 20.0161 12.1201C20.63 11.288 20.9674 10.4311 20.9674 9.69901C20.9674 9.21071 20.8162 8.80343 20.5166 8.4852C20.35 4.39489 17.5504 1.17389 14.076 1.12207L13.9717 1.12061C10.5603 1.13958 7.74883 4.27592 7.5031 8.29543C7.06486 8.63118 6.84224 9.10196 6.84224 9.69974C6.84224 10.5632 7.31059 11.596 8.13036 12.5434C8.69671 14.1659 9.57459 15.5914 10.6198 16.5892C10.3377 17.7804 9.53469 18.6818 8.22977 19.2723C8.06105 19.3489 7.72502 19.4328 7.33579 19.5292C5.55692 19.97 2.24702 20.7912 1.41814 24.0158C1.36844 24.2107 1.47905 24.41 1.66596 24.4625Z"/>
+                  <path d="M1.66596 24.4625C1.85358 24.5114 2.0454 24.3983 2.0944 24.2041C2.81547 21.3992 5.74594 20.6722 7.4975 20.2372C7.93644 20.1284 8.28297 20.0423 8.5084 19.9408C10.5036 19.038 11.1539 17.5855 11.3486 16.5257C11.3724 16.3979 11.3283 16.2666 11.233 16.1804C10.1942 15.2454 9.31767 13.8419 8.76462 12.2273C8.74922 12.1814 8.72472 12.139 8.69251 12.1025C7.96095 11.2734 7.54091 10.3968 7.54091 9.69828C7.54091 9.29027 7.68862 9.01656 8.02115 8.81C8.12266 8.7465 8.18637 8.63483 8.19127 8.51221C8.34598 4.79414 10.8858 1.86728 14.0011 1.84831C14.0046 1.84831 14.0725 1.85342 14.076 1.85342C17.2067 1.89867 19.7304 4.8883 19.8207 8.65892C19.8235 8.76329 19.8683 8.86109 19.9454 8.92824C20.1645 9.12167 20.2667 9.36691 20.2667 9.69974C20.2667 10.2844 19.9678 11.0033 19.4259 11.723C19.4 11.7573 19.3804 11.7967 19.3671 11.8383C18.807 13.6893 17.8018 15.3235 16.6102 16.3235C16.5094 16.4082 16.4618 16.5439 16.4856 16.676C16.6802 17.7351 17.3306 19.1869 19.3258 20.0912C19.5617 20.1978 19.9278 20.281 20.392 20.3853C22.1261 20.7766 25.0278 21.4327 25.7398 24.2041C25.7818 24.3669 25.9232 24.4742 26.0772 24.4742C26.1073 24.4742 26.1374 24.4698 26.1682 24.4618C26.3551 24.4092 26.4658 24.2092 26.416 24.0144C25.5935 20.8123 22.306 20.07 20.5404 19.6715C20.1309 19.5788 19.7773 19.4992 19.6051 19.4204C18.303 18.8307 17.5007 17.9322 17.2172 16.7454C18.4262 15.6629 19.4378 13.993 20.0161 12.1201C20.63 11.288 20.9674 10.4311 20.9674 9.69901C20.9674 9.21071 20.8162 8.80343 20.5166 8.4852C20.35 4.39489 17.5504 1.17389 14.076 1.12207L13.9717 1.12061C10.5603 1.13958 7.74883 4.27592 7.5031 8.29543C7.06486 8.63118 6.84224 9.10196 6.84224 9.69974C6.84224 10.5632 7.31059 11.596 8.13036 12.5434C8.69671 14.1659 9.57459 15.5914 10.6198 16.5892C10.3377 17.7804 9.53469 18.6818 8.22977 19.2723C8.06105 19.3489 7.72502 19.4328 7.33579 19.5292C5.55692 19.97 2.24702 20.7912 1.41814 24.0158C1.36844 24.2107 1.47905 24.41 1.66596 24.4625Z" mask="url(#path-1-outside-1)"/>
+                </svg> <span>Кабинет</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}">
+                <svg class="favorite-icon" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1.80434 10.5385L11.5266 22.1567C11.6942 22.357 11.9682 22.3543 12.1336 22.1567L21.8553 10.5385L21.4677 11.0353C22.0398 10.3196 22.4498 9.45703 22.6371 8.50877C22.7119 8.12936 22.7517 7.7363 22.7517 7.33396C22.7517 4.14853 20.2847 1.5658 17.2412 1.5658C14.7306 1.5658 12.6124 3.32365 11.948 5.72732L11.7187 5.72296C11.0538 3.31874 8.93565 1.56143 6.42498 1.56143C3.38204 1.56143 0.915039 4.14362 0.915039 7.32959C0.915039 7.73193 0.954345 8.12445 1.02914 8.50386C1.21639 9.45211 1.62637 10.3152 2.19904 11.0309" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg> <span class="hidden-xs hidden-sm hidden-md">{{ text_wishlist }}</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{{ shopping_cart }}" class="shopping-cart" title="{{ text_shopping_cart }}">
+                {{ cart }}
+              </a>
+            </li>
+
+          {% else %}
+            <li>
+              <a href="#loginModel" class="login-popup popup-content" title="войти/зарегистрироваться" data-effect="mfp-move-horizontal">
+                <svg class="user-icon" viewBox="0 0 27 25" xmlns="http://www.w3.org/2000/svg">
+                  <mask id="path-1-outside-1" maskUnits="userSpaceOnUse" x="0.40625" y="0.120605" width="27" height="25">
+                    <rect fill="white" x="0.40625" y="0.120605" width="27" height="25"/>
+                    <path d="M1.66596 24.4625C1.85358 24.5114 2.0454 24.3983 2.0944 24.2041C2.81547 21.3992 5.74594 20.6722 7.4975 20.2372C7.93644 20.1284 8.28297 20.0423 8.5084 19.9408C10.5036 19.038 11.1539 17.5855 11.3486 16.5257C11.3724 16.3979 11.3283 16.2666 11.233 16.1804C10.1942 15.2454 9.31767 13.8419 8.76462 12.2273C8.74922 12.1814 8.72472 12.139 8.69251 12.1025C7.96095 11.2734 7.54091 10.3968 7.54091 9.69828C7.54091 9.29027 7.68862 9.01656 8.02115 8.81C8.12266 8.7465 8.18637 8.63483 8.19127 8.51221C8.34598 4.79414 10.8858 1.86728 14.0011 1.84831C14.0046 1.84831 14.0725 1.85342 14.076 1.85342C17.2067 1.89867 19.7304 4.8883 19.8207 8.65892C19.8235 8.76329 19.8683 8.86109 19.9454 8.92824C20.1645 9.12167 20.2667 9.36691 20.2667 9.69974C20.2667 10.2844 19.9678 11.0033 19.4259 11.723C19.4 11.7573 19.3804 11.7967 19.3671 11.8383C18.807 13.6893 17.8018 15.3235 16.6102 16.3235C16.5094 16.4082 16.4618 16.5439 16.4856 16.676C16.6802 17.7351 17.3306 19.1869 19.3258 20.0912C19.5617 20.1978 19.9278 20.281 20.392 20.3853C22.1261 20.7766 25.0278 21.4327 25.7398 24.2041C25.7818 24.3669 25.9232 24.4742 26.0772 24.4742C26.1073 24.4742 26.1374 24.4698 26.1682 24.4618C26.3551 24.4092 26.4658 24.2092 26.416 24.0144C25.5935 20.8123 22.306 20.07 20.5404 19.6715C20.1309 19.5788 19.7773 19.4992 19.6051 19.4204C18.303 18.8307 17.5007 17.9322 17.2172 16.7454C18.4262 15.6629 19.4378 13.993 20.0161 12.1201C20.63 11.288 20.9674 10.4311 20.9674 9.69901C20.9674 9.21071 20.8162 8.80343 20.5166 8.4852C20.35 4.39489 17.5504 1.17389 14.076 1.12207L13.9717 1.12061C10.5603 1.13958 7.74883 4.27592 7.5031 8.29543C7.06486 8.63118 6.84224 9.10196 6.84224 9.69974C6.84224 10.5632 7.31059 11.596 8.13036 12.5434C8.69671 14.1659 9.57459 15.5914 10.6198 16.5892C10.3377 17.7804 9.53469 18.6818 8.22977 19.2723C8.06105 19.3489 7.72502 19.4328 7.33579 19.5292C5.55692 19.97 2.24702 20.7912 1.41814 24.0158C1.36844 24.2107 1.47905 24.41 1.66596 24.4625Z"/>
+                  </mask>
+                  <path d="M1.66596 24.4625C1.85358 24.5114 2.0454 24.3983 2.0944 24.2041C2.81547 21.3992 5.74594 20.6722 7.4975 20.2372C7.93644 20.1284 8.28297 20.0423 8.5084 19.9408C10.5036 19.038 11.1539 17.5855 11.3486 16.5257C11.3724 16.3979 11.3283 16.2666 11.233 16.1804C10.1942 15.2454 9.31767 13.8419 8.76462 12.2273C8.74922 12.1814 8.72472 12.139 8.69251 12.1025C7.96095 11.2734 7.54091 10.3968 7.54091 9.69828C7.54091 9.29027 7.68862 9.01656 8.02115 8.81C8.12266 8.7465 8.18637 8.63483 8.19127 8.51221C8.34598 4.79414 10.8858 1.86728 14.0011 1.84831C14.0046 1.84831 14.0725 1.85342 14.076 1.85342C17.2067 1.89867 19.7304 4.8883 19.8207 8.65892C19.8235 8.76329 19.8683 8.86109 19.9454 8.92824C20.1645 9.12167 20.2667 9.36691 20.2667 9.69974C20.2667 10.2844 19.9678 11.0033 19.4259 11.723C19.4 11.7573 19.3804 11.7967 19.3671 11.8383C18.807 13.6893 17.8018 15.3235 16.6102 16.3235C16.5094 16.4082 16.4618 16.5439 16.4856 16.676C16.6802 17.7351 17.3306 19.1869 19.3258 20.0912C19.5617 20.1978 19.9278 20.281 20.392 20.3853C22.1261 20.7766 25.0278 21.4327 25.7398 24.2041C25.7818 24.3669 25.9232 24.4742 26.0772 24.4742C26.1073 24.4742 26.1374 24.4698 26.1682 24.4618C26.3551 24.4092 26.4658 24.2092 26.416 24.0144C25.5935 20.8123 22.306 20.07 20.5404 19.6715C20.1309 19.5788 19.7773 19.4992 19.6051 19.4204C18.303 18.8307 17.5007 17.9322 17.2172 16.7454C18.4262 15.6629 19.4378 13.993 20.0161 12.1201C20.63 11.288 20.9674 10.4311 20.9674 9.69901C20.9674 9.21071 20.8162 8.80343 20.5166 8.4852C20.35 4.39489 17.5504 1.17389 14.076 1.12207L13.9717 1.12061C10.5603 1.13958 7.74883 4.27592 7.5031 8.29543C7.06486 8.63118 6.84224 9.10196 6.84224 9.69974C6.84224 10.5632 7.31059 11.596 8.13036 12.5434C8.69671 14.1659 9.57459 15.5914 10.6198 16.5892C10.3377 17.7804 9.53469 18.6818 8.22977 19.2723C8.06105 19.3489 7.72502 19.4328 7.33579 19.5292C5.55692 19.97 2.24702 20.7912 1.41814 24.0158C1.36844 24.2107 1.47905 24.41 1.66596 24.4625Z"/>
+                  <path d="M1.66596 24.4625C1.85358 24.5114 2.0454 24.3983 2.0944 24.2041C2.81547 21.3992 5.74594 20.6722 7.4975 20.2372C7.93644 20.1284 8.28297 20.0423 8.5084 19.9408C10.5036 19.038 11.1539 17.5855 11.3486 16.5257C11.3724 16.3979 11.3283 16.2666 11.233 16.1804C10.1942 15.2454 9.31767 13.8419 8.76462 12.2273C8.74922 12.1814 8.72472 12.139 8.69251 12.1025C7.96095 11.2734 7.54091 10.3968 7.54091 9.69828C7.54091 9.29027 7.68862 9.01656 8.02115 8.81C8.12266 8.7465 8.18637 8.63483 8.19127 8.51221C8.34598 4.79414 10.8858 1.86728 14.0011 1.84831C14.0046 1.84831 14.0725 1.85342 14.076 1.85342C17.2067 1.89867 19.7304 4.8883 19.8207 8.65892C19.8235 8.76329 19.8683 8.86109 19.9454 8.92824C20.1645 9.12167 20.2667 9.36691 20.2667 9.69974C20.2667 10.2844 19.9678 11.0033 19.4259 11.723C19.4 11.7573 19.3804 11.7967 19.3671 11.8383C18.807 13.6893 17.8018 15.3235 16.6102 16.3235C16.5094 16.4082 16.4618 16.5439 16.4856 16.676C16.6802 17.7351 17.3306 19.1869 19.3258 20.0912C19.5617 20.1978 19.9278 20.281 20.392 20.3853C22.1261 20.7766 25.0278 21.4327 25.7398 24.2041C25.7818 24.3669 25.9232 24.4742 26.0772 24.4742C26.1073 24.4742 26.1374 24.4698 26.1682 24.4618C26.3551 24.4092 26.4658 24.2092 26.416 24.0144C25.5935 20.8123 22.306 20.07 20.5404 19.6715C20.1309 19.5788 19.7773 19.4992 19.6051 19.4204C18.303 18.8307 17.5007 17.9322 17.2172 16.7454C18.4262 15.6629 19.4378 13.993 20.0161 12.1201C20.63 11.288 20.9674 10.4311 20.9674 9.69901C20.9674 9.21071 20.8162 8.80343 20.5166 8.4852C20.35 4.39489 17.5504 1.17389 14.076 1.12207L13.9717 1.12061C10.5603 1.13958 7.74883 4.27592 7.5031 8.29543C7.06486 8.63118 6.84224 9.10196 6.84224 9.69974C6.84224 10.5632 7.31059 11.596 8.13036 12.5434C8.69671 14.1659 9.57459 15.5914 10.6198 16.5892C10.3377 17.7804 9.53469 18.6818 8.22977 19.2723C8.06105 19.3489 7.72502 19.4328 7.33579 19.5292C5.55692 19.97 2.24702 20.7912 1.41814 24.0158C1.36844 24.2107 1.47905 24.41 1.66596 24.4625Z" mask="url(#path-1-outside-1)"/>
+                </svg> <span>{{ text_account }}</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{{ shopping_cart }}" class="shopping-cart" title="{{ text_shopping_cart }}">
+                {{ cart }}
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="shopping-cart--mobile">
+    <a href="{{ shopping_cart }}" class="shopping-cart" title="{{ text_shopping_cart }}">
+      {{ cart }}
+    </a>
+  </div>
+</header>
+
+<div class="header-bg"></div>
+
+<div class="header-overlay"></div>

@@ -1,0 +1,32 @@
+{% if categories %}
+<div class="catalog__menu">
+  <span class="catalog__heading">Меню каталога</span>
+  <button class="close-icon"></button>
+
+  <nav>
+    <ul class="menu-list">
+      {% for category in categories %}
+        {% if category.children %}
+          <li class="item menu-list__item-child">
+            <a href="javascript:void(0)">{{ category.name }}</a>
+            <div class="dropdown-menu-list">
+              {% for children in category.children|batch(category.children|length / category.column|round(1, 'ceil')) %}
+              <ul>
+                {% for child in children %}
+                <li>
+                  <a href="{{ child.href }}">{{ child.name }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endfor %}
+            </div>
+          </li>
+
+        {% else %}
+          <li class="item menu-list__item"><a href="{{ category.href }}">{{ category.name }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+</div>
+{% endif %}

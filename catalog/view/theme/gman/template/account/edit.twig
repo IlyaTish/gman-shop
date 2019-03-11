@@ -1,0 +1,64 @@
+{{ header }}
+<div id="account-edit" class="account-edit">
+  <div class="breadcrumb__nav">
+    <ul class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li>
+          <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="account-link-content account-edit__content anim">
+    {% if error_warning %}
+      <div class="alert alert-danger alert-dismissible">
+        <i class="fa fa-exclamation-circle"></i>
+        <div class="alert__text">
+          {{ error_warning }}
+          <button type="button" class="close alert__close-icon" data-dismiss="alert"></button>
+        </div>
+      </div>
+    {% endif %}
+
+    <h2>{{ text_your_details }}</h2>
+    <form action="{{ action }}" method="post" class="edit-form" novalidate="novalidate">
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="input-firstname">{{ entry_firstname }}</label>
+        <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control form-control-solid placeholder-no-fix required" aria-required="true" aria-describedby="firstname-error">
+        {% if error_firstname %}
+          <div class="text-danger">{{ error_firstname }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="input-lastname">{{ entry_lastname }}</label>
+        <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control form-control-solid placeholder-no-fix required" aria-required="true" aria-describedby="lastname-error">
+        {% if error_lastname %}
+          <div class="text-danger">{{ error_lastname }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>
+        <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control form-control-solid placeholder-no-fix required" aria-required="true" aria-describedby="email-error">
+        {% if error_email %}
+          <div class="text-danger">{{ error_email }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="input-telephone">{{ entry_telephone }}</label>
+        <input type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control form-control-solid placeholder-no-fix required" aria-required="true" aria-describedby="telephone-error">
+        {% if error_telephone %}
+          <div class="text-danger">{{ error_telephone }}</div>
+        {% endif %}
+      </div>
+
+      <div class="buttons">
+        <button id="button-guest" data-loading-text="{{ text_loading }}" class="btn-primary">{{ button_continue }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{{ footer }}

@@ -1,0 +1,55 @@
+{% if error_warning %}
+  <div class="alert alert-warning alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+{% endif %}
+
+{% if payment_methods %}
+  <div class="payment-methods">
+    {% for payment_method in payment_methods %}
+      <label class="payment-method__radio">
+        {% if payment_method.code == code or not code %}
+        {% set code = payment_method.code %}
+          <input type="radio" name="payment_method" value="{{ payment_method.code }}" checked="checked">
+        {% else %}
+          <input type="radio" name="payment_method" value="{{ payment_method.code }}">
+        {% endif %}
+          <h3 class="payment-method__title">{{ payment_method.title }}</h3>
+        {% if payment_method.terms %}
+        ({{ payment_method.terms }})
+        {% endif %}
+      </label>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if text_agree %}
+  <div class="buttons">
+    <div class="pull-right">{{ text_agree }}
+      {% if agree %}
+        <input type="checkbox" name="agree" value="1" checked="checked">
+      {% else %}
+        <input type="checkbox" name="agree" value="1" checked="checked">
+      {% endif %}
+        <input type="button" value="{{ button_continue }}" id="button-payment-method" data-loading-text="{{ text_loading }}" class="btn btn-primary">
+    </div>
+  </div>
+{% else %}
+  <div class="buttons">
+    <div class="pull-right">
+      <input type="button" value="{{ button_continue }}" id="button-payment-method" data-loading-text="{{ text_loading }}" class="btn btn-primary">
+    </div>
+  </div>
+{% endif %}
+
+<script>
+  if ($('.payment-method__radio input:checked')) {
+    $('.payment-method__radio input:checked').parent().addClass('payment-method__radio--active');
+  }
+
+  $('.payment-method__radio').on('click', function() {
+    $('.payment-method__radio input').removeAttr('checked');
+    $(this).children().attr('checked', 'checked');
+
+    $('.payment-method__radio').removeClass('payment-method__radio--active');
+    $(this).addClass('payment-method__radio--active');
+  });
+</script>

@@ -1,0 +1,206 @@
+{% for product in products %}
+  <section id="product-card-scroll-2" class="product-card main-margin">
+    <div class="breadcrumb__nav">
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li>
+            <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {% if minimum > 1 %}
+      <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_minimum }}</div>
+    {% endif %}
+
+    <div class="product-card__content">
+      {% if thumb or images %}
+        <div class="product-card__image-content">
+          {% if images %}
+            <div id="swiper-gallery2" class="swiper-container swiper-gallery2">
+              {% if action_percent %}
+                <div class="price-tag-product">
+                  <span>-{{ action_percent }}%</span>
+                </div>
+              {% endif %}
+
+              {% if tags %}
+                <p class="product-tags">
+                  {% for i in 0..tags|length %}
+                    {% if i < (tags|length - 1) %}
+                      <span>{{ tags[i].tag }}</span>
+                    {% else %}
+                      <span>{{ tags[i].tag }}</span> 
+                    {% endif %}
+                  {% endfor %}
+                </p>
+              {% endif %}
+
+              <div class="swiper-wrapper">
+                {% for image in images %}
+                  <div class="swiper-slide">
+                    <img src="{{ image.thumb }}" title="{{ product.name }}" alt="{{ product.name }}">
+                  </div>
+                {% endfor %}
+              </div>
+
+              <div class="swiper-button-next swiper-button-white"></div>
+              <div class="swiper-button-prev swiper-button-white"></div>
+            </div>
+          {% endif %}
+
+          {% if images %}
+            <div class="swiper-container swiper-container-thumbs2">
+              <div class="swiper-wrapper">
+                {% for image in images %}
+                  <div class="swiper-slide">
+                    <img src="{{ image.thumb }}" title="{{ product.name }}" alt="{{ product.name }}">
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="product-card__description-content">
+        <h3 class="product-card__heading product-name">{{ product.name }}</h3>
+
+        <div class="product-card__info">
+          <div class="product-card__info-top">
+            {% if manufacturer %}
+              <a class="links manufacturer" href="{{ manufacturers }}">{{ manufacturer }}</a>
+            {% endif %}
+            {% if attribute_groups %}
+              <span class="links">{{ tab_attribute }}</span>
+            {% endif %}
+            <span class="links">{{ model }}</span>
+            <span class="having"><i class="fas fa-circle"></i>в наличии</span>
+          </div>
+
+          <p class="product-card__paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            {% if product.price %}
+              <div class="product-card__sum">
+                <span class="bold">Итого:</span> 
+                <div class="prices">
+                  {% if not product.special %}
+                    <span class="current-price">
+                      {{ product.price }}
+                    </span>
+                  {% else %}
+                    {{ skidka }}
+                    <span class="new-price">{{ product.special }}</span>
+                    <span class="old-price">{{ product.price }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+
+            {% if options %}
+              {% for option in options %}
+                {% if option.name == 'Размер' %}
+                  <div id="input-option{{ option.product_option_id }}" class="product-card__size">
+                    <span>Выберите размер:</span>
+                    <div class="swiper-container s2">
+                      <div class="overlay"></div>
+                      <div class="swiper-wrapper">
+                        {% for option_value in option.product_option_value %}
+                          <div class="swiper-slide form-group{% if option.required %} required {% endif %}">
+                            <input id="input-option{{ option.product_option_id }}" class="size" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}">
+                            <span data-swiper-parallax="-10%" data-swiper-parallax-scale="0.90"> {{ option_value.name }}</span>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+
+                {% if option.name == 'Цвет' %}
+                  <div id="input-option{{ option.product_option_id }}" class="product-card__color">
+                    <span>Выберите цвет:</span>
+                    <div class="colors form-group{% if option.required %} required {% endif %}">
+                      {% for option_value in option.product_option_value %}
+                        {% if option_value.image %}
+                          <div class="color">
+                            <img src="{{ option_value.image }}" alt="{{ option_value.name }}" class="color">
+                            <input id="input-option{{ option.product_option_id }}" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}">
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <div class="product-card__order">
+              <a href="javascript:void(0)" onclick="fastOrder(this)" class="fast-order popup-content-{{ product.product_id }}" data-effect="mfp-move-horizontal">Заказать в 1 клик!</a>
+
+              <div class="buttons form-group">
+                <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                <br>
+                <button type="button" id="button-cart-2" data-loading-text="{{ text_loading }}" class="btn-primary">{{ button_cart }}</button>
+                <button class="btn-primary btn-wishlist">В избранное</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endfor %}
+
+<script>
+  function fastOrder(elem) {
+    $.magnificPopup.open({
+      items: {
+        src: '#fast-order',
+      },
+      type: 'inline',
+      midClick: true,
+      removalDelay: 500,
+      fixedContentPos: false,
+      fixedBgPos: true,
+      callbacks: {
+        beforeOpen: function() {
+          this.st.mainClass = $("a[class*='popup-content-']").attr('data-effect');
+        }
+      }
+    });
+
+    var forms = $('.fast-order__popup');
+
+    forms.trigger('reset');
+    $('.popup__overlay').removeClass('popup__overlay--active');
+    var name = $(elem).parent().parent().parent().find('.product-name').text();
+    $('#fast-order').find('.product_name').val('Быстрый заказ (' + name + ')');
+
+    forms.submit(function() {
+      var th = $(this);
+      $.ajax({
+        type: 'POST',
+        url: 'mail.php',
+        data: th.serialize(),
+        success: function() {
+          $('.popup__overlay').addClass('popup__overlay--active');
+
+          setTimeout(function() {
+            $('.popup__overlay').removeClass('popup__overlay--active');
+          }, 8000);
+
+          setTimeout(function() {
+            th.trigger('reset');
+          }, 1000);
+        }
+      });
+      return false;
+    });
+  }
+</script>

@@ -1,0 +1,61 @@
+{{ header }}
+<div id="account-order" class="container">
+  <div class="breadcrumb__nav">
+    <ul class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li>
+          <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="account-link-content order__content anim">
+    <h2>История ваших заказов</h2>
+    {% if orders %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <td class="text-right">{{ column_order_id }}</td>
+              <td class="text-left">{{ column_customer }}</td>
+              <td class="text-right">{{ column_product }}</td>
+              <td class="text-left">{{ column_status }}</td>
+              <td class="text-right">{{ column_total }}</td>
+              <td class="text-left">{{ column_date_added }}</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+           {% for order in orders %}
+            <tr>
+              <td class="text-right">#{{ order.order_id }}</td>
+              <td class="text-left">{{ order.name }}</td>
+              <td class="text-right">{{ order.products }}</td>
+              <td class="text-left">{{ order.status }}</td>
+              <td class="text-right">{{ order.total }}</td>
+              <td class="text-left">{{ order.date_added }}</td>
+              <td class="text-right"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6 text-left">{{ pagination }}</div>
+      <div class="col-sm-6 text-right">{{ results }}</div>
+    </div>
+
+    {% else %}
+      <div class="account-empty">
+        <p class="account-empty__text">{{ text_empty }}</p>
+      </div>
+    {% endif %}
+
+    <div class="buttons">
+      <a href="{{ continue }}" data-loading-text="{{ text_loading }}" class="btn-primary">{{ button_continue }}</a>
+    </div>
+  </div>
+</div>
+{{ footer }}

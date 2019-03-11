@@ -1,0 +1,48 @@
+{% if error_warning %}
+  <div class="alert alert-warning alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+{% endif %}
+
+{% if shipping_methods %}
+  <div class="shipping-methods">
+    {% for shipping_method in shipping_methods %}
+      <label class="shipping-method__radio">
+        <p class="shipping-method__title">{{ shipping_method.title }}</p>
+        {% if not shipping_method.error %}
+          {% for quote in shipping_method.quote %}
+            {% set code = quote.code %}
+            {% if quote.code == "flat.flat" %}
+              <input type="radio" name="shipping_method" value="{{ quote.code }}" checked="checked">
+              <p class="shipping-method__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            {% endif %}
+
+            {% set code = quote.code %}
+            {% if quote.code == "pickup.pickup" %}
+              <input type="radio" name="shipping_method" value="{{ quote.code }}">
+              <p class="shipping-method__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-danger alert-dismissible">{{ shipping_method.error }}</div>
+        {% endif %}
+      </label>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="buttons">
+  <input type="button" value="{{ button_continue }}" id="button-shipping-method" data-loading-text="{{ text_loading }}" class="btn btn-primary">
+</div>
+
+<script>
+if ($('.shipping-method__radio input:checked')) {
+  $('.shipping-method__radio input:checked').parent().addClass('shipping-method__radio--active');
+}
+
+$('.shipping-method__radio').on('click', function() {
+  $('.shipping-method__radio input').removeAttr('checked');
+  $(this).children().attr('checked', 'checked');
+
+  $('.shipping-method__radio').removeClass('shipping-method__radio--active');
+  $(this).addClass('shipping-method__radio--active');
+});
+</script>

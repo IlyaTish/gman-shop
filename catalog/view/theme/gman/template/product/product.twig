@@ -1,0 +1,226 @@
+{{ header }}
+<section id="product-product" class="product-card main-margin">
+  <div class="breadcrumb__nav">
+    <ul class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li>
+          <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% if minimum > 1 %}
+    <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_minimum }}</div>
+  {% endif %}
+
+  <div class="product-card__content">
+    {% if thumb or images %}
+      <div class="product-card__image-content">
+        {% if images %}
+          <div id="swiper-gallery1" class="swiper-container swiper-gallery">
+            {% if action_percent %}
+              <div class="price-tag-product">
+                <span>-{{ action_percent }}%</span>
+              </div>
+            {% endif %}
+
+            {% if tags %}
+              <p class="product-tags">
+                {% for i in 0..tags|length %}
+                  {% if i < (tags|length - 1) %}
+                    <span>{{ tags[i].tag }}</span>
+                  {% else %}
+                    <span>{{ tags[i].tag }}</span> 
+                  {% endif %}
+                {% endfor %}
+              </p>
+            {% endif %}
+
+            <div class="swiper-wrapper">
+              {% for image in images %}
+                <div class="swiper-slide">
+                  <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}">
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-white"></div>
+          </div>
+        {% endif %}
+
+        {% if images %}
+          <div class="swiper-container swiper-container-thumbs">
+            <div class="swiper-wrapper">
+              {% for image in images %}
+                <div class="swiper-slide">
+                  <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}">
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="product-card__description-content">
+      <h1 class="product-card__heading">{{ heading_title }}</h1>
+
+      <div class="product-card__info">
+        <div class="product-card__info-top">
+          {% if manufacturer %}
+            <a class="links manufacturer" href="{{ manufacturers }}">{{ manufacturer }}</a>
+          {% endif %}
+          {% if attribute_groups %}
+            <span class="links">{{ tab_attribute }}</span>
+          {% endif %}
+          <span class="links">{{ model }}</span>
+          <span class="having"><i class="fas fa-circle"></i>в наличии</span>
+        </div>
+
+        {% if price %}
+          <div class="product-card__sum">
+            <span class="bold">Итого:</span> 
+            <div class="prices">
+              {% if not special %}
+                <span class="current-price">
+                  {{ price }}
+                </span>
+              {% else %}
+                {{ skidka }}
+                <span class="new-price">{{ special }}</span>
+                <span class="old-price">{{ price }}</span>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if options %}
+          {% for option in options %}
+            {% if option.name == 'Размер' %}
+              <div id="input-option{{ option.product_option_id }}" class="product-card__size">
+                <span>Выберите размер:</span>
+                <div class="swiper-container s2">
+                  <div class="overlay"></div>
+                  <div class="swiper-wrapper">
+                    {% for option_value in option.product_option_value %}
+                      <div class="swiper-slide form-group{% if option.required %} required {% endif %}">
+                        <input id="input-option{{ option.product_option_id }}" class="size" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}">
+                        <span data-swiper-parallax="-10%" data-swiper-parallax-scale="0.90"> {{ option_value.name }}</span>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if option.name == 'Цвет' %}
+              <div id="input-option{{ option.product_option_id }}" class="product-card__color">
+                <span>Выберите цвет:</span>
+                <div class="colors form-group{% if option.required %} required {% endif %}">
+                  {% for option_value in option.product_option_value %}
+                    {% if option_value.image %}
+                      <div class="color">
+                        <img src="{{ option_value.image }}" alt="{{ option_value.name }}" class="color">
+                        <input id="input-option{{ option.product_option_id }}" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}">
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        <div class="product-card__order">
+          <a href="#fast-order" class="fast-order popup-content-{{ product_id }}" data-effect="mfp-move-horizontal">Заказать в 1 клик!</a>
+
+          <div class="buttons form-group">
+            <input type="hidden" name="product_id" value="{{ product_id }}">
+            <br>
+            <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn-primary">{{ button_cart }}</button>
+            <button class="btn-primary btn-wishlist">В избранное</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-card__tab-info">
+    <div class="product-card__tabs">
+      <button id="description" class="tab tab--active">
+        <span>описание</span>
+      </button>
+
+      <button id="care" class="tab">
+        <span>уход</span>
+      </button>
+
+      <button id="feature" class="tab">
+        <span>характеристики</span>
+      </button>
+    </div>
+
+    <div class="tab-description tab-description--active">
+      <div class="tab-description__heading">{{ heading_title }}</div>
+      {{ description }}
+    </div>
+  </div>
+</section>
+
+<script>
+  $('.size').styler();
+  $('.color').styler();
+
+  $('#button-cart').on('click', function() {
+    $.ajax({
+      url: 'index.php?route=checkout/cart/add',
+      type: 'post',
+      data: $('#product-product input[type=\'hidden\'], #product-product .size input[type=\'radio\']:checked, #product-product .color input[type=\'radio\']:checked',),
+      dataType: 'json',
+      beforeSend: function() {
+        $('#button-cart').button('loading');
+      },
+      complete: function() {
+        $('#button-cart').button('reset');
+      },
+      success: function(json) {
+        $('.alert-dismissible, .text-danger').remove();
+        $('.form-group').removeClass('has-error');
+
+        if (json['error']) {
+          if (json['error']['option']) {
+            for (i in json['error']['option']) {
+              var element = $('#input-option' + i.replace('_', '-'));
+
+              if (element.parent().hasClass('input-group')) {
+                element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+              } else {
+                element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+              }
+            }
+          }
+
+          if (json['error']['recurring']) {
+            $('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
+          }
+
+
+          $('.text-danger').parent().addClass('has-error');
+        }
+
+        if (json['success']) {
+          $('.breadcrumb__nav').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i>' + json['success'] + '<button type="button" class="close close-icon" data-dismiss="alert"></button></div>');
+
+          $('.cart-item-amount').html(json['total']);
+          $('html, body').animate({ scrollTop: 0 }, 'slow');
+        }
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+      }
+    });
+  });
+</script>
+{{ footer }} 

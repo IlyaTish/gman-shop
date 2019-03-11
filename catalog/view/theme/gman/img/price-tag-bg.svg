@@ -1,0 +1,7 @@
+<svg width="58" height="69" viewBox="0 0 58 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <linearGradient id="linear-gradient">
+    <stop offset="0%" stop-color="#ff4949"/>
+    <stop offset="100%" stop-color="#ff1414"/>
+  </linearGradient>
+  <rect x="-57.3936" y="21.9174" width="96.9239" height="65.4493" transform="rotate(-45 -57.3936 21.9174)" fill="url(#linear-gradient)"/>
+</svg>

@@ -1,0 +1,124 @@
+{{ header }}
+<div class="account">
+  <div class="loading">
+    <div class="loading-text">
+      <span class="loading-text-words">L</span>
+      <span class="loading-text-words">O</span>
+      <span class="loading-text-words">A</span>
+      <span class="loading-text-words">D</span>
+      <span class="loading-text-words">I</span>
+      <span class="loading-text-words">N</span>
+      <span class="loading-text-words">G</span>
+    </div>
+  </div>
+
+  <div class="breadcrumb__nav">
+    <ul class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li>
+          <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <span class="account__heading">Личный кабинет</span>
+
+  <nav class="account__nav">
+    <ul>
+      <li>
+        <a href="index.html" class="btn-back">
+          <svg viewBox="0 0 26 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.79688 10.0775L10.0476 1.54199"/>
+            <path d="M24.2023 10.1484H1.79688"/>
+            <path d="M1.79688 10.1484L10.0316 18.5415"/>
+          </svg>
+        </a>
+      </li>
+
+      <li>
+        <a class="account__link first-link" href="{{ edit }}">{{ text_edit }}</a>
+      </li>
+
+      <li>
+        <a class="account__link" href="{{ wishlist }}">Избранное</a>
+      </li>
+
+      <li>
+        <a class="account__link" href="{{ order }}">{{ text_order }}</a>
+      </li>
+
+      <li>
+        <a class="account__link logout" href="index.php?route=account/logout">{{ text_logout }}</a>
+      </li>
+    </ul>
+  </nav>
+
+  {% if success %}
+    <div class="alert alert-success alert-dismissible">
+      <i class="fa fa-check-circle"></i>
+      {{ success }}
+      <button type="button" class="close alert__close-icon" data-dismiss="alert"></button>
+    </div>
+  {% endif %}
+
+  <div class="account__container">
+    <div class="content">
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    var firstItemLink = $('.account__nav .account__link:first-child').attr('href');
+
+    function fadeIn() {
+      $('.anim').addClass('anim--in');
+    }
+
+    function fadeOut() {
+      $('.anim').removeClass('anim--in').fadeOut(1100);
+      //Preloader
+      $('.loading').addClass('loading--active');
+      $('.loading').delay(800).queue(function(next) {
+        $(this).removeClass('loading--active');
+        next();
+      });
+    }
+
+    $('.account__nav .first-link').addClass('account__link--active');
+
+    $('.account__container .content').load(firstItemLink + ' .account-edit__content', function() {
+      setTimeout(function() {
+        fadeIn();
+      }, 100);
+    });
+
+    $(this).find('.account__link').on('click', function(event) {
+      if ($(this).attr('href') != 'index.php?route=account/logout') {
+        var thisLink = $(this).attr('href');
+        event.preventDefault();
+        fadeOut();
+        setTimeout(function() {
+          $('.account__container .content').load(thisLink + ' .account-link-content', function() {
+            setTimeout(function() {
+              fadeIn();
+            }, 100);
+          });
+        }, 100);
+      }
+    });
+  });
+
+  $(document).on('click', '#button-guest', function(e) {
+    $('.edit-form').validate({
+      errorClass: 'text-danger',
+      highlight: function(element) {
+        $(element).fadeOut(function() {
+          $(element).fadeIn();
+        });
+      }
+    });
+  });
+</script>
+{{ footer }}

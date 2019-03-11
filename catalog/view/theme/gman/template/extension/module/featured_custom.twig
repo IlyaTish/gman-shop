@@ -1,0 +1,105 @@
+  <div class="insta-catalog main-margin">
+    <div class="insta-catalog__heading">
+    </div>
+
+    <div class="insta-catalog__sell-out swiper-container s5">
+      <ul class="swiper-wrapper">
+        {% for product in products %}
+          <div class="swiper-slide">
+            <li class="insta-catalog__item">
+              <a href="{{ product.href }}" title="{{ product.name }}" alt="{{ product.name }}">
+                {% if product.action_percent > 0 %}
+                  <div class="price-tag-category">
+                    <span>-{{ product.action_percent }}%</span>
+                  </div>
+                {% endif %}
+
+                <div class="insta-catalog__img">
+                  {% if product.tags %}
+                    <p class="product-tags product-tags--category">
+                      {% for i in 0..product.tags|length %}
+                        {% if i < (product.tags|length - 1) %}
+                          <span>{{ product.tags[i].tag }}</span>
+                        {% else %}
+                          <span>{{ product.tags[i].tag }}</span> 
+                        {% endif %}
+                      {% endfor %}
+                    </p>
+                  {% endif %}
+                  <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}">
+                </div>
+              </a>
+
+              <div class="product__description">
+                <div class="product__heading">
+                  <h4 class="product-name">{{ product.name }}</h4><span class="product__model">{{ product.model }}</span>
+                </div>
+                {% if product.price %}
+                  <div class="prices">
+                    {% if not product.special %}
+                      <span class="current-price">
+                        {{ product.price }}
+                      </span>
+                    {% else %}
+                      {{ skidka }}
+                      <span class="new-price">{{ product.special }}</span>
+                      <span class="old-price">{{ product.price }}</span>
+                    {% endif %}
+                    <a href="javascript:void(0)" onclick="fastOrder(this)" class="fast-order popup-content-{{ product.product_id }}" data-effect="mfp-move-horizontal">Заказать в 1 клик!</a>
+                  </div>
+                {% endif %}
+              </div>
+            </li>
+          </div>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function fastOrder(elem) {
+      $.magnificPopup.open({
+        items: {
+          src: '#fast-order',
+        },
+        type: 'inline',
+        midClick: true,
+        removalDelay: 500,
+        fixedContentPos: false,
+        fixedBgPos: true,
+        callbacks: {
+          beforeOpen: function() {
+            this.st.mainClass = $("a[class*='popup-content-']").attr('data-effect');
+          }
+        }
+      });
+
+      var forms = $('.fast-order__popup');
+
+      forms.trigger('reset');
+      $('.popup__overlay').removeClass('popup__overlay--active');
+      var name = $(elem).parent().parent().parent().find('.product-name').text();
+      $('#fast-order').find('.product_name').val('Быстрый заказ (' + name + ')');
+
+      forms.submit(function() {
+        var th = $(this);
+        $.ajax({
+          type: 'POST',
+          url: 'mail.php',
+          data: th.serialize(),
+          success: function() {
+            $('.popup__overlay').addClass('popup__overlay--active');
+
+            setTimeout(function() {
+              $('.popup__overlay').removeClass('popup__overlay--active');
+            }, 8000);
+
+            setTimeout(function() {
+              th.trigger('reset');
+            }, 1000);
+          }
+        });
+        return false;
+      });
+    }
+  </script>

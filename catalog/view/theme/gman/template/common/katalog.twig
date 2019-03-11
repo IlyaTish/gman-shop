@@ -1,0 +1,309 @@
+{{ header }}
+  <div class="catalog">
+    {{ menu }}
+
+    <div id="load-content" class="catalog__products">
+    </div>
+
+    <div class="button-top">
+      <div class="arrow-wrapper">
+        <svg width="49" height="38" viewBox="0 0 49 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.25018 19.1433L18.8212 2.0003" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M47 19H2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2.25018 19.1433L18.7892 36.0003" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var categoryItem = $('.menu-list__item');
+    categoryItemChild = $('.menu-list__item-child');
+    categoryItemLink = $('.menu-list .item a');
+    categoryLink = $('.menu-list__item a');
+    categoryChildLink = $('.menu-list__item-child a');
+    product = $('#load-content .product');
+    sortLink = $('.jq-selectbox__dropdown ul li');
+    autoscroller = [];
+    autoscroller.hidePagination = 1;
+    autoscroller.autoScroll = 0;
+    autoscroller.catcher = '#endless';
+    autoscroller.delay = 1000;
+    autoscroller.loading = 0;
+
+    jQuery(function () {
+      $('.popup-content').each(function() {
+        $(this).magnificPopup();
+      });
+    });
+
+    //Product fade-in animation
+    function productFadeIn() {
+      var product = $('#load-content .product');
+      $.each(product, function(i, el) {
+        setTimeout(function() {
+          $(el).addClass('product-fade-in');
+        }, 0 + (i * 200));
+      });
+    }
+
+    function loadContent() {
+      $("a[class*='popup-content-']").magnificPopup({
+        type: 'inline',
+        midClick: true,
+        removalDelay: 500,
+        fixedContentPos: false,
+        fixedBgPos: true,
+        callbacks: {
+          beforeOpen: function() {
+           this.st.mainClass = this.st.el.attr('data-effect');
+         }
+       }
+     });
+
+      //Sort functions
+      $('.catalog__sort select').styler();
+      $('.catalog__sort').addClass('catalog__sort--active');
+
+      $('.sort-select').click(function() {
+        var target = $( event.target );
+        $('.jq-selectbox__trigger').toggleClass('trigger--active');
+      });
+
+      $(document).click(function (event) {
+        if ($(event.target).closest('.sort-select').length == 0) {
+          $('.jq-selectbox__trigger').removeClass('trigger--active');
+          $('.jq-selectbox__dropdown').removeClass('disable');
+        }
+      });
+
+      //Mobile catalog-menu
+      $('.catalog__menu-icon--mobile').on('click', function() {
+        $(this).toggleClass('catalog__menu-icon--mobile--active');
+        $('.catalog__menu').toggleClass('catalog__menu--active');
+      });
+
+      $('.close-icon, .sort-select, .menu-list .item a').on('click', function() {
+        $('.catalog__menu-icon--mobile').removeClass('catalog__menu-icon--mobile--active');
+        $('.catalog__menu').removeClass('catalog__menu--active');
+      });
+
+      //Product fade-in animation
+      var product = $('#load-content .product');
+      $.each(product, function(i, el) {
+        setTimeout(function() {
+          $(el).addClass('product-fade-in');
+        }, 0 + (i * 200));
+      });
+
+      var productHeight = $('#сategory-content').css('height');
+      $('#load-content').css('max-height', productHeight);
+
+      if ($('.catalog').has('.empty').length) {
+        setTimeout(function() {
+          $('.empty').addClass('empty--active');
+        }, 1000);
+      }
+
+      //Load more button function
+      if (autoscroller.hidePagination) {
+        $('.pagination').hide();
+      }
+
+      if ($('.catalog').has('.product').length) {
+        if ($('.pagination').length && !$('.pagination > li:last-child').hasClass('active')) {
+          $('.pagination .text-right').hide();
+
+          $('.pagination').parent().before('<button class="btn-load" id="endless">Показать еще<i class="fas fa-sync-alt"></i></button>');
+
+          $('#endless').on('click', function(e) {
+            $(this).delay(10).queue(function() {
+              $('#endless').addClass('current');
+            });
+
+            if ($('#endless').hasClass('current')) {
+              return;
+            }
+
+            else {
+              var lastProduct = $('.pagination').parent().parent().parent().find('.product:last-child');
+              var nextPage = $('ul.pagination li.active').next().find('a:first-child');
+
+              $.ajax({
+                url: $(nextPage).attr('href'),
+                beforeSend: function() {
+                  $('#endless .fa-sync-alt').addClass('fa-spin');
+                },
+                success: function(data) {
+                  var products = $(data).find('.product-item');
+
+                  $('#endless').removeClass('current');
+
+                  lastProduct.after(products);
+                  var productHeight = $('.catalog__products:nth-child(1)').css('height');
+                  $('#load-content').css('max-height', productHeight);
+                  productFadeIn();
+
+                  $('.pagination').html($(data).find('.pagination > *'));
+                  nextPage = $('ul.pagination li.active').next().find('a:first-child');
+
+                  if (nextPage.length == 0) {
+                    $('#endless').remove();
+                  } else {
+                    $('#endless .fa-sync-alt').removeClass('fa-spin');
+                  }
+                  autoscroller.loading = 0;
+
+                  $("a[class*='popup-content-']").magnificPopup({
+                    type: 'inline',
+                    midClick: true,
+                    removalDelay: 500,
+                    fixedContentPos: false,
+                    fixedBgPos: true,
+                    callbacks: {
+                      beforeOpen: function() {
+                        this.st.mainClass = this.st.el.attr('data-effect');
+                      }
+                    }
+                  });
+                }
+              });
+            }
+
+            $('#endless').addClass('current');
+            return false;
+          });
+        }
+      }
+
+      //Telefone mask for form
+      $('#phone_input1').mask('+7 (999)-999-99-99');
+      $('#phone_input2').mask('+7 (999)-999-99-99');
+
+      // //Preloader
+      // $('.loading').addClass('loading--active');
+      // $('.loading').delay(800).queue(function(next) {
+      //   $(this).removeClass('loading--active');
+      //   next();
+      // });
+    }
+
+    function removeContent() {
+      var product = $('#load-content .product');
+      $(product.get().reverse()).each(function(i, el) {
+        setTimeout(function() {
+          $(el).removeClass('product-fade-in');
+        }, 0 + (i * 200));
+      });
+
+      $('.empty').removeClass('empty--active');
+
+      $('.catalog__sort').removeClass('catalog__sort--active');
+
+      //Preloader
+      $('.loading').addClass('loading--active');
+      $('.loading').delay(800).queue(function(next) {
+        $(this).removeClass('loading--active');
+        next();
+      });
+    }
+
+
+    $('.item:first-child').addClass('menu-list__item--active current');
+
+    var firstItemLink = $('.menu-list .item:first-child a').attr('href') + ' #category-catalog';
+    $('#load-content').load(firstItemLink, '', function FirstItemFadeIn() {
+
+      loadContent();
+
+      $(document).on('change', '#input-sort', function() {
+        var sortLink = $(this).val();
+        removeContent();
+
+        $('#load-content').load(sortLink + ' #сategory-content', function() {
+          loadContent();
+        });
+      });
+    });
+
+
+    categoryLink.click(function(e) {
+      e.preventDefault();
+      focus = $(this).attr('class');
+
+      $(this).parent(categoryItem).addClass('menu-list__item--active');
+
+      if (categoryItem.hasClass('menu-list__item--active')) {
+        categoryItem.removeClass('menu-list__item--active');
+        $(this).parent(categoryItem).addClass('menu-list__item--active');
+      }
+
+      if (categoryItemChild.hasClass('menu-list__item-child--active')) {
+        categoryItemChild.removeClass('menu-list__item-child--active');
+        categoryItemChild.find('.dropdown-menu-list').removeClass('dropdown-menu-list--active');
+      }
+
+      if ($('.catalog').has('.empty').length) {
+        $('.empty').addClass('empty--active');
+      }
+    });
+
+
+    categoryChildLink.click(function() {
+      $(this).parent().addClass('menu-list__item-child--active');
+      $(this).parent().find('.dropdown-menu-list').addClass('dropdown-menu-list--active');
+
+      if (categoryItem.hasClass('menu-list__item--active')) {
+        categoryItem.removeClass('menu-list__item--active');
+      }
+
+      if (categoryItemChild.hasClass('menu-list__item-child--active')) {
+        categoryItemChild.removeClass('menu-list__item-child--active');
+        categoryItemChild.find('.dropdown-menu-list').removeClass('dropdown-menu-list--active');
+        $(this).parent().addClass('menu-list__item-child--active');
+        $(this).parent().find('.dropdown-menu-list').addClass('dropdown-menu-list--active');
+      }
+    });
+
+
+    categoryItemLink.click(function(e) {
+      e.preventDefault();
+
+      $(this).parent().delay(10).queue(function(next) {
+        if ($(this).hasClass('current')) {
+          $(this).addClass('current');
+        }
+        else {
+          $('.menu-list .item').removeClass('current');
+        }
+        next();
+      });
+
+      if ($(this).parent().hasClass('current')) {
+        return;
+      }
+
+      else {
+        removeContent();
+        var thisItemLink = $(this).attr('href') + ' #category-catalog';
+        $('#load-content').load(thisItemLink, '', function FirstItemFadeIn() {
+          loadContent();
+
+          $(document).on('change', '#input-sort', function() {
+            var sortLink = $(this).val();
+            removeContent();
+
+            $('#сategory-catalog').load(sortLink + ' #сategory-content', function() {
+              loadContent();
+            });
+          });
+        });
+
+        $(this).parent().delay(11).queue(function(next) {
+          $(this).addClass('current');
+          next();
+        });
+      }
+    });
+  </script>
+{{ footer }}
