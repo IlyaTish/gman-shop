@@ -6,10 +6,10 @@ define('HTTP_SERVER', 'https://github.com/IlyaTish/gman-shop');
 define('HTTPS_SERVER', 'https://github.com/IlyaTish/gman-shop');
 
 // DIR
-define('DIR_APPLICATION', 'C:/OSPanel/domains/opencart-dev/catalog/');
-define('DIR_SYSTEM', 'C:/OSPanel/domains/opencart-dev/system/');
-define('DIR_IMAGE', 'C:/OSPanel/domains/opencart-dev/image/');
-define('DIR_STORAGE', 'C:/OSPanel/domains/storage/');
+define('DIR_APPLICATION', 'https://github.com/IlyaTish/gman-shop/catalog/');
+define('DIR_SYSTEM', 'https://github.com/IlyaTish/gman-shop/system/');
+define('DIR_IMAGE', 'https://github.com/IlyaTish/gman-shop/image/');
+define('DIR_STORAGE', 'https://github.com/IlyaTish/gman-shop/storage/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/theme/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');
