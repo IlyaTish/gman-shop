@@ -1,9 +1,9 @@
 <?php
 // HTTP
-define('HTTP_SERVER', 'http://opencart-dev/');
+define('HTTP_SERVER', 'https://github.com/IlyaTish/gman-shop');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://opencart-dev/');
+define('HTTPS_SERVER', 'https://github.com/IlyaTish/gman-shop');
 
 // DIR
 define('DIR_APPLICATION', 'C:/OSPanel/domains/opencart-dev/catalog/');
